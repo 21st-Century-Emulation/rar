@@ -55,5 +55,8 @@ func rar(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/api/v1/execute", rar)
+	http.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Healthy")
+	})
 	http.ListenAndServe(":8080", nil)
 }
