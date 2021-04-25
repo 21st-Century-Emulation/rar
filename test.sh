@@ -11,11 +11,14 @@ EXPECTED='{"id":"abcd", "opcode":0,"state":{"a":181,"b":0,"c":0,"d":0,"e":0,"h":
 
 docker kill rar
 
-if [ "$RESULT" = "$EXPECTED" ]; then
-    echo -e "\e[32mrar Test Pass \e[0m"
+DIFF=`diff <(jq -S . <<< "$RESULT") <(jq -S . <<< "$EXPECTED")`
+
+if [ $? -eq 0 ]; then
+    echo -e "\e[32mRAR Test Pass \e[0m"
     exit 0
 else
-    echo -e "\e[31mTLC Test Fail  \e[0m"
+    echo -e "\e[31mRAR Test Fail  \e[0m"
     echo "$RESULT"
-    exit -1
+    echo "$EXPECTED"
+    exit 1
 fi
